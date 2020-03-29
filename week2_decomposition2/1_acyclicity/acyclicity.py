@@ -2,8 +2,34 @@
 
 import sys
 
+visited  = []
+recStack = []
+
+def isCyclicUtil(adj, v):
+    global visited
+    global recStack
+    if not visited[v]:
+        visited[v] = True
+        recStack[v] = True
+        for w in adj[v]:
+            if (not visited[w]) and isCyclicUtil(adj, w):
+                return True
+            elif recStack[w]:
+                return True
+    recStack[v] = False
+    return False
 
 def acyclic(adj):
+    global visited
+    global recStack
+
+    visited = [False] * len(adj)
+    recStack = [False] * len(adj)
+    
+    for v in range(len(adj)):
+        if isCyclicUtil(adj, v):
+            return 1 #True
+    
     return 0
 
 if __name__ == '__main__':

@@ -2,15 +2,25 @@
 
 import sys
 
-def dfs(adj, used, order, x):
-    #write your code here
-    pass
+visited = []
+order = []
 
+def explore(adj, v):
+    global visited
+    global order
+    visited[v] = True
+    for w in adj[v]:
+        if not visited[w]:
+            explore(adj, w)
+    order.insert(0, v)
 
 def toposort(adj):
-    used = [0] * len(adj)
-    order = []
-    #write your code here
+    global visited
+    global order
+    visited = [False] * len(adj)
+    for v in range(len(adj)):
+        if not visited[v]:
+            explore(adj, v)
     return order
 
 if __name__ == '__main__':
