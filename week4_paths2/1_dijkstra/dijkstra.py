@@ -1,12 +1,44 @@
 #Uses python3
+'''
+Given an directed graph with positive edge weights and with 𝑛 vertices and 𝑚 edges as well as two vertices 𝑢 and 𝑣, 
+compute the weight of a shortest path between 𝑢 and 𝑣 (that is, the minimum total weight of a path from 𝑢 to 𝑣).
+'''
 
 import sys
 import queue
 
 
+def extract_min(visited, dist):
+    min_vertex = len(dist)
+    min_distance = 9223372036854775807
+
+    for v in range(len(dist)):
+        if not visited[v] and dist[v] < min_distance:
+            min_vertex = v
+            min_distance = dist[v]
+
+    return min_vertex
+
+
 def distance(adj, cost, s, t):
-    #write your code here
-    return -1
+    vertices = len(adj)
+    dist = [9223372036854775807] * vertices
+    visited = [False] * vertices
+    dist[s] = 0
+
+    for _ in range(vertices - 1):
+        v = extract_min(visited, dist)
+        if v == vertices:
+            break
+        visited[v] = True
+        i = 0  # magic variable
+        for u in adj[v]:
+            if not visited[u] and dist[u] > dist[v] + cost[v][i]:
+                dist[u] = dist[v] + cost[v][i]
+            i += 1
+
+    return dist[t] if dist[t] != 9223372036854775807 else -1
+
 
 
 if __name__ == '__main__':

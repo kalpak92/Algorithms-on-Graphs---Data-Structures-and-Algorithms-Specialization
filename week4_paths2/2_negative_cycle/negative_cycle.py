@@ -1,10 +1,36 @@
 #Uses python3
+'''
+Given an directed graph with possibly negative edge weights and with 𝑛 vertices and 𝑚 edges, 
+check whether it contains a cycle of negative weight.
+'''
 
 import sys
 
 
 def negative_cycle(adj, cost):
-    #write your code here
+    vertices = len(adj)
+    dist = [9223372036854775807] * vertices
+    dist[0] = 0
+
+    for _ in range(vertices - 1):
+        for u in range(vertices):
+            i = 0  # magic variable
+            for v in adj[u]:
+                weight = dist[u] + cost[u][i]
+                if dist[v] > weight:
+                    dist[v] = weight
+                else:
+                    i += 1
+
+    for u in range(vertices):
+        i = 0
+        for v in adj[u]:
+            weight = dist[u] + cost[u][i]
+            if dist[v] > weight:
+                return 1
+            else:
+                i += 1
+
     return 0
 
 

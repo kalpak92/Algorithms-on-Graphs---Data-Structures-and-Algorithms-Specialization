@@ -1,11 +1,31 @@
 #Uses python3
-
+'''
+Given an undirected graph with 𝑛 vertices and 𝑚 edges and two vertices 𝑢 and 𝑣, 
+compute the length of a shortest path between 𝑢 and 𝑣 
+(that is, the minimum number of edges in a path from 𝑢 to 𝑣).
+'''
 import sys
 import queue
 
 def distance(adj, s, t):
-    #write your code here
-    return -1
+    n = len(adj)
+
+    dist = [n] * n
+    dist[s] = 0
+    
+    queue = []
+    queue.append(s)
+
+    while queue:
+        v = queue.pop(0)
+    
+        for u in adj[v]:
+            if dist[u] == n:
+                queue.append(u)
+                dist[u] = dist[v] + 1
+
+    return -1 if dist[t] == n else dist[t]
+
 
 if __name__ == '__main__':
     input = sys.stdin.read()

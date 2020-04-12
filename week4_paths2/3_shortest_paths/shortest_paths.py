@@ -1,20 +1,52 @@
 #Uses python3
 
+'''
+Given an directed graph with possibly negative edge weights and with 𝑛 vertices and 𝑚 edges as well as its vertex 𝑠, 
+compute the length of shortest paths from 𝑠 to all other vertices of the graph.
+'''
 import sys
 import queue
 
-
 def shortet_paths(adj, cost, s, distance, reachable, shortest):
-    #write your code here
-    pass
+    vertices = len(adj)
+    distance[s] = 0
+    reachable[s] = 1
+    queue = []
+    visited = [False] * vertices
+
+    for _ in range(vertices - 1):
+        for u in range(vertices):
+            i = 0  # magic variable
+            for v in adj[u]:
+                if distance[v] > distance[u] + cost[u][i]:
+                    distance[v] = distance[u] + cost[u][i]
+                    reachable[v] = 1
+                i += 1
+
+    for u in range(vertices):
+        i = 0  # magic variable
+        for v in adj[u]:
+            if distance[v] > distance[u] + cost[u][i]:
+                if v not in queue:
+                    queue.append(v)
+            i += 1
+
+    while queue:
+        u = queue.pop(0)
+        visited[u] = True
+        shortest[u] = 0
+        for v in adj[u]:
+            if not visited[v] and v not in queue:
+                queue.append(v)
 
 
 if __name__ == '__main__':
-    input = sys.stdin.read()
-    data = list(map(int, input.split()))
+    user_input = sys.stdin.read()
+    data = list(map(int, user_input.split()))
     n, m = data[0:2]
     data = data[2:]
-    edges = list(zip(zip(data[0:(3 * m):3], data[1:(3 * m):3]), data[2:(3 * m):3]))
+    edges = list(
+        zip(zip(data[0:(3 * m):3], data[1:(3 * m):3]), data[2:(3 * m):3]))
     data = data[3 * m:]
     adj = [[] for _ in range(n)]
     cost = [[] for _ in range(n)]
@@ -23,7 +55,7 @@ if __name__ == '__main__':
         cost[a - 1].append(w)
     s = data[0]
     s -= 1
-    distance = [10**19] * n
+    distance = [float('inf')] * n
     reachable = [0] * n
     shortest = [1] * n
     shortet_paths(adj, cost, s, distance, reachable, shortest)
@@ -34,4 +66,3 @@ if __name__ == '__main__':
             print('-')
         else:
             print(distance[x])
-
