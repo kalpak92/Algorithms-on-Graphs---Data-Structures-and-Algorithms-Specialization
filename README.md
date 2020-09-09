@@ -1,3 +1,3 @@
-# Algorithms-on-Graphs---Data-Structures-and-Algorithms-Specialization Course by University of California San Diego on Algorithms on Graphs
+# Algorithms on Graphs
 
-Solutions to the assignments.
+Solutions to the assignments for the course hosted on Coursera by UCSD.
